@@ -1,4 +1,4 @@
-package com.example.vk.controllers;
+package com.example.vk.controllers.registration;
 
 import com.example.vk.entities.User;
 import com.example.vk.services.security.UserService;

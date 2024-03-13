@@ -9,9 +9,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class UsersToDo {
+public class Photo{
     private Long id;
     private String title;
-    private Long userId;
-    private Boolean completed;
+    private String url;
+    private String thumbnailUrl;
+    private Long albumId;
 }

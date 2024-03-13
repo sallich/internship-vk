@@ -9,7 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Comments {
+public class Comment{
     private Long id;
     private String name;
     private String body;

@@ -1,9 +1,8 @@
-package com.example.vk.services;
+package com.example.vk.services.proxy;
 
-import com.example.vk.json_consumer.PostsJsonConsumer;
+import com.example.vk.json_consumer.PostJsonConsumer;
 import com.example.vk.dto.Post;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -15,29 +14,29 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class PostService {
 
-    private final PostsJsonConsumer postsJsonConsumer;
+    private final PostJsonConsumer postJsonConsumer;
 
     @Cacheable("post")
     public Post getById(Long id){
-        return postsJsonConsumer.getById(id);
+        return postJsonConsumer.getById(id);
     }
 
     public Set<Post> getAllPosts(){
-        return postsJsonConsumer.getAllPosts();
+        return postJsonConsumer.getAllPosts();
     }
 
     @Cacheable("post")
     public Post post(Post post){
-        return postsJsonConsumer.post(post);
+        return postJsonConsumer.post(post);
     }
 
     @CachePut(value = "post", key = "postId")
     public Post put(Long postId, Post post){
-        return postsJsonConsumer.put(postId,post);
+        return postJsonConsumer.put(postId,post);
     }
 
     @CacheEvict("post")
     public void delete(Long id){
-        postsJsonConsumer.delete(id);
+        postJsonConsumer.delete(id);
     }
 }

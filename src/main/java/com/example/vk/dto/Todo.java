@@ -9,9 +9,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class UsersPosts {
+public class Todo{
     private Long id;
     private String title;
     private Long userId;
-    private String body;
+    private Boolean completed;
 }

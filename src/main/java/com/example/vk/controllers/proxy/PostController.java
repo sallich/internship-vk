@@ -1,7 +1,7 @@
-package com.example.vk.controllers;
+package com.example.vk.controllers.proxy;
 
 import com.example.vk.dto.Post;
-import com.example.vk.services.PostService;
+import com.example.vk.services.proxy.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,17 +11,17 @@ import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
-public class PostsController {
+public class PostController{
     private final PostService postService;
 
 
     @GetMapping("/api/posts/{id}")
-    public ResponseEntity<Post> getPost(@PathVariable Long id){
+    public ResponseEntity<Post> getPost(@PathVariable Long id) {
         return ResponseEntity.ok().body(postService.getById(id));
     }
 
     @GetMapping("/api/posts")
-    public ResponseEntity<Set<Post>> getAllPosts(){
+    public ResponseEntity<Set<Post>> getAllPosts() {
         return ResponseEntity.ok().body(postService.getAllPosts());
     }
 
@@ -33,7 +33,7 @@ public class PostsController {
     @PutMapping("/api/posts/{id}")
     public ResponseEntity<Post> putPost(@RequestBody Post post, @PathVariable Long id) {
 
-        return ResponseEntity.ok().body(postService.put(id,post));
+        return ResponseEntity.ok().body(postService.put(id, post));
     }
 
     @DeleteMapping("/api/posts/{id}")

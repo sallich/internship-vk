@@ -7,39 +7,39 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
 
+/**
+ * Похож на PostJsonConsumer, но предназначен для работы с всеми альбомами пользователя
+ */
 @Controller
-public class PostsJsonConsumer {
+public class PostsJsonConsumer{
     private final RestTemplate restTemplate = new RestTemplate();
 
     @Value("${json-source.url}")
     private String url;
 
-    public Post getById(Long id) {
-        return restTemplate.getForObject(url + "/posts/" + id, Post.class, id);
+    public List<Post> post(Long userId, List<Post> posts) {
+        HttpEntity<List<Post>> request = new HttpEntity<>(posts);
+        String postUrl = url + "/users/" + userId + "/posts";
+        return List.of(Objects.requireNonNull(restTemplate.postForObject(postUrl, request, Post[].class)));
     }
 
-    public Set<Post> getAllPosts() {
-        return Arrays.stream(Objects.requireNonNull(restTemplate.getForObject(url+ "/posts", Post[].class)))
-                .collect(Collectors.toSet());
+    public List<Post> getPostsByUserId(Long userId) {
+        String getUrl = url + "/users/" + userId + "/posts";
+        return List.of(Objects.requireNonNull(restTemplate.getForObject(getUrl, Post[].class)));
     }
 
-    public Post post(Post post) {
-        HttpEntity<Post> request = new HttpEntity<>(post);
-        return restTemplate.postForObject(url + "/posts" , request, Post.class);
+    public List<Post> put(Long id, List<Post> posts) {
+        HttpEntity<List<Post>> httpEntity = new HttpEntity<>(posts);
+        String putUrl = url + "/users/" + id + "/posts";
+        return List.of(Objects.requireNonNull(restTemplate
+                .exchange(putUrl, HttpMethod.PUT, httpEntity, Post[].class).getBody()));
     }
 
-    public Post put(Long postId, Post post) {
-        HttpEntity<Post> httpEntity = new HttpEntity<>(post);
-        return restTemplate.exchange(url + "/posts/" + postId, HttpMethod.PUT, httpEntity, Post.class).getBody();
-    }
-    public void delete(Long id) {
-        String newUrl = url + "/posts/" + id;
+    public void deletePostsByUserId(Long userId) {
+        String newUrl = url + "/users/" + userId + "/posts";
         restTemplate.delete(newUrl);
     }
-
 }

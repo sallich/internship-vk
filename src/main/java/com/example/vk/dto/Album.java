@@ -12,7 +12,5 @@ import lombok.Setter;
 public class Album {
     private Long id;
     private String title;
-    private String url;
-    private String thumbnailUrl;
-    private Long albumId;
+    private Long userId;
 }

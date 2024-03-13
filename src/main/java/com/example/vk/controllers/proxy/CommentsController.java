@@ -1,27 +1,27 @@
-package com.example.vk.controllers;
+package com.example.vk.controllers.proxy;
 
-import com.example.vk.dto.Comments;
-import com.example.vk.services.CommentsService;
+import com.example.vk.dto.Comment;
+import com.example.vk.services.proxy.CommentsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Set;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-public class CommentsController {
+public class CommentsController{
 
     private final CommentsService commentsService;
 
     @PostMapping("/api/posts/{postId}/comments")
-    public ResponseEntity<Comments> postCommentsByPostId(@PathVariable Long postId, @RequestBody Comments comments) {
+    public ResponseEntity<List<Comment>> postCommentsByPostId(@PathVariable Long postId, @RequestBody List<Comment> comments) {
         return ResponseEntity.ok().body(commentsService.saveComments(postId, comments));
     }
 
     @GetMapping("/api/posts/{postId}/comments")
-    public ResponseEntity<Set<Comments>> getCommentsByPostId(@PathVariable Long postId){
+    public ResponseEntity<List<Comment>> getCommentsByPostId(@PathVariable Long postId) {
         return ResponseEntity.ok().body(commentsService.getCommentsByPostId(postId));
     }
 
@@ -32,8 +32,8 @@ public class CommentsController {
     }
 
     @PutMapping("/api/posts/{postId}/comments")
-    public ResponseEntity<Comments> putComment(@PathVariable Long postId, @RequestBody Comments comments){
-        return ResponseEntity.ok().body(commentsService.put(postId,comments));
+    public ResponseEntity<List<Comment>> putComment(@PathVariable Long postId, @RequestBody List<Comment> comments) {
+        return ResponseEntity.ok().body(commentsService.put(postId, comments));
     }
 
 }
